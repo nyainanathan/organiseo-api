@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Instant;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -11,6 +13,6 @@ public class Users {
     private String id;
     private String username;
     private String fullName;
-    private String password;
-    private String roles;
+    private String role;
+    private Instant  createdAt;
 }
