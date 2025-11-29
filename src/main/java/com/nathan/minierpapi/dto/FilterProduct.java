@@ -2,8 +2,12 @@ package com.nathan.minierpapi.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 @Getter
+@Setter
 public class FilterProduct {
     private int page;
     private int limit;

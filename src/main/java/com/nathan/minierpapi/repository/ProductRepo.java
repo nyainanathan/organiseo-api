@@ -2,6 +2,7 @@ package com.nathan.minierpapi.repository;
 
 import com.nathan.minierpapi.dto.CreateProduct;
 import com.nathan.minierpapi.dto.FilterProduct;
+import com.nathan.minierpapi.dto.PagedProducts;
 import com.nathan.minierpapi.mapper.ProductRowMapper;
 import com.nathan.minierpapi.model.product.Products;
 import com.nathan.minierpapi.utils.TimeUtils;
@@ -50,14 +51,21 @@ public class ProductRepo {
         return this.getProductById(idAsString);
     }
 
-    public List<Products> getAllProducts(FilterProduct filters){
+    public PagedProducts getAllProducts(FilterProduct filters){
         StringBuilder selectQuery = new StringBuilder("SELECT * FROM products");
         List<Object> params = new ArrayList<>();
+
+        System.out.println(filters.toString());
+
+        if(filters.getPage() == 0)
+            filters.setPage(1);
+        if(filters.getLimit() == 0)
+            filters.setLimit(25);
 
         int filter = 0;
 
         if(filters.getQ() != null){
-            selectQuery.append(" WHERE (name LIKE ? OR barcode LIKE ?)");
+            selectQuery.append(" WHERE (name ILIKE ? OR bar_code ILIKE ?)");
             params.add("%" + filters.getQ() + "%");
             params.add("%" + filters.getQ() + "%");
             filter++;
@@ -69,15 +77,33 @@ public class ProductRepo {
             else
                 selectQuery.append(" AND ");
 
-            selectQuery.append("category LIKE ?");
+            selectQuery.append("category ILIKE ?");
             params.add("%" + filters.getCategory() + "%");
             filter++;
         }
 
-        return jdbcTemplate.query(
+        List<Products> products =  jdbcTemplate.query(
                 selectQuery.toString(),
                 productRowMapper,
                 params.toArray()
+        );
+
+        for(Products p : products){
+            System.out.println(p.toString());
+        }
+        int resultLength =  products.size();
+
+        if (resultLength > filters.getLimit() * filters.getPage()){
+            resultLength = filters.getLimit() * filters.getPage();
+        }
+
+        List<Products> filteredProducts = products.subList(0, resultLength);
+
+        return new PagedProducts(
+                filteredProducts.size(),
+                filters.getPage(),
+                filters.getLimit(),
+                filteredProducts
         );
     }
 }

@@ -2,6 +2,7 @@ package com.nathan.minierpapi.controller;
 
 import com.nathan.minierpapi.dto.CreateProduct;
 import com.nathan.minierpapi.dto.FilterProduct;
+import com.nathan.minierpapi.dto.PagedProducts;
 import com.nathan.minierpapi.model.product.Products;
 import com.nathan.minierpapi.service.ProductService;
 import lombok.AllArgsConstructor;
@@ -21,9 +22,9 @@ public class ProductController {
     private final ProductService service;
 
     @GetMapping("")
-    public ResponseEntity<List<Products>> getAllProducts(@RequestBody FilterProduct filters) {
+    public ResponseEntity<PagedProducts> getAllProducts(FilterProduct filters) {
         try{
-            List<Products> products = service.getAllProducts(filters);
+            PagedProducts products = service.getAllProducts(filters);
             return new ResponseEntity<>(products, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

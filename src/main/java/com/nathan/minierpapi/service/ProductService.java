@@ -2,6 +2,7 @@ package com.nathan.minierpapi.service;
 
 import com.nathan.minierpapi.dto.CreateProduct;
 import com.nathan.minierpapi.dto.FilterProduct;
+import com.nathan.minierpapi.dto.PagedProducts;
 import com.nathan.minierpapi.model.product.Products;
 import com.nathan.minierpapi.repository.ProductRepo;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ public class ProductService {
         return repo.createProduct(newProduct);
     }
 
-    public List<Products> getAllProducts(FilterProduct filters) {
+    public PagedProducts getAllProducts(FilterProduct filters) {
         return repo.getAllProducts(filters);
     }
 }
