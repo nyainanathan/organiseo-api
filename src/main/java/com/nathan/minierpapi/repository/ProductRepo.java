@@ -1,6 +1,8 @@
 package com.nathan.minierpapi.repository;
 
 import com.nathan.minierpapi.dto.CreateProduct;
+import com.nathan.minierpapi.dto.FilterProduct;
+import com.nathan.minierpapi.mapper.ProductRowMapper;
 import com.nathan.minierpapi.model.product.Products;
 import com.nathan.minierpapi.utils.TimeUtils;
 import lombok.AllArgsConstructor;
@@ -10,6 +12,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -17,28 +21,10 @@ import java.util.UUID;
 public class ProductRepo {
 
     private JdbcTemplate jdbcTemplate;
-    private TimeUtils timeUtils;
-
-    private Products mapProduct(ResultSet rs, int rowNum) throws SQLException {
-        System.out.println(rs.getString("created_at"));
-        System.out.println(rs.getString("updated_at"));
-        return new Products(
-                rs.getString("name"),
-                rs.getString("bar_code"),
-                rs.getString("sku"),
-                rs.getString("category"),
-                rs.getString("brand"),
-                rs.getFloat("purchase_price"),
-                rs.getFloat("sell_price"),
-                rs.getString("unit"),
-                rs.getString("id"),
-                timeUtils.convertToInstant(rs.getString("created_at")),
-                timeUtils.convertToInstant(rs.getString("updated_at"))
-        );
-    }
+    private ProductRowMapper productRowMapper;
 
     private Products getProductById(String id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM products WHERE id = ?::uuid", this::mapProduct, id);
+        return jdbcTemplate.queryForObject("SELECT * FROM products WHERE id = ?::uuid", productRowMapper, id);
     }
 
     public Products createProduct(CreateProduct newProduct){
@@ -64,4 +50,34 @@ public class ProductRepo {
         return this.getProductById(idAsString);
     }
 
+    public List<Products> getAllProducts(FilterProduct filters){
+        StringBuilder selectQuery = new StringBuilder("SELECT * FROM products");
+        List<Object> params = new ArrayList<>();
+
+        int filter = 0;
+
+        if(filters.getQ() != null){
+            selectQuery.append(" WHERE (name LIKE ? OR barcode LIKE ?)");
+            params.add("%" + filters.getQ() + "%");
+            params.add("%" + filters.getQ() + "%");
+            filter++;
+        }
+
+        if(filters.getCategory() != null){
+            if (filter == 0)
+                selectQuery.append(" WHERE ");
+            else
+                selectQuery.append(" AND ");
+
+            selectQuery.append("category LIKE ?");
+            params.add("%" + filters.getCategory() + "%");
+            filter++;
+        }
+
+        return jdbcTemplate.query(
+                selectQuery.toString(),
+                productRowMapper,
+                params.toArray()
+        );
+    }
 }

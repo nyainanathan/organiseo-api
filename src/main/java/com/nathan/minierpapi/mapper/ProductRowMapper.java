@@ -11,7 +11,7 @@ import java.sql.SQLException;
 @AllArgsConstructor
 @Component
 public class ProductRowMapper implements RowMapper<Products> {
-    
+
     private TimeUtils timeUtils;
 
     @Override
