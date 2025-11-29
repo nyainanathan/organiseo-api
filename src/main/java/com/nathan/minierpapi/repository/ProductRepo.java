@@ -121,4 +121,9 @@ public class ProductRepo {
                 Timestamp.from(Instant.ofEpochMilli(System.currentTimeMillis())), updatedProduct.getId());
         return this.getProductById(updatedProduct.getId());
     }
+
+    public void deleteProduct(String id){
+        String deleteQuery = "DELETE FROM products WHERE id = ?::uuid";
+        jdbcTemplate.update(deleteQuery, id);
+    }
 }

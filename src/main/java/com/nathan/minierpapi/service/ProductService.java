@@ -32,4 +32,8 @@ public class ProductService {
     public Products updateProduct(ProductUpdate updatedProduct) {
         return repo.updateProduct(updatedProduct);
     }
+
+    public void deleteProduct(String id) {
+        repo.deleteProduct(id);
+    }
 }
