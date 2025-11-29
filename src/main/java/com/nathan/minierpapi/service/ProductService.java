@@ -3,6 +3,7 @@ package com.nathan.minierpapi.service;
 import com.nathan.minierpapi.dto.CreateProduct;
 import com.nathan.minierpapi.dto.FilterProduct;
 import com.nathan.minierpapi.dto.PagedProducts;
+import com.nathan.minierpapi.dto.ProductUpdate;
 import com.nathan.minierpapi.model.product.Products;
 import com.nathan.minierpapi.repository.ProductRepo;
 import lombok.AllArgsConstructor;
@@ -28,4 +29,7 @@ public class ProductService {
         return repo.getProductById(id);
     }
 
+    public Products updateProduct(ProductUpdate updatedProduct) {
+        return repo.updateProduct(updatedProduct);
+    }
 }

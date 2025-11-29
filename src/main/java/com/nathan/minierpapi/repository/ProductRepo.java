@@ -3,6 +3,7 @@ package com.nathan.minierpapi.repository;
 import com.nathan.minierpapi.dto.CreateProduct;
 import com.nathan.minierpapi.dto.FilterProduct;
 import com.nathan.minierpapi.dto.PagedProducts;
+import com.nathan.minierpapi.dto.ProductUpdate;
 import com.nathan.minierpapi.mapper.ProductRowMapper;
 import com.nathan.minierpapi.model.product.Products;
 import com.nathan.minierpapi.utils.TimeUtils;
@@ -11,8 +12,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -105,5 +108,17 @@ public class ProductRepo {
                 filters.getLimit(),
                 filteredProducts
         );
+    }
+
+    @Transactional
+    public Products updateProduct(ProductUpdate updatedProduct){
+        String updateQuery = "UPDATE products set name = ?, bar_code = ?, sku = ? , category = ? , brand = ? , purchase_price = ? , sell_price = ? , unit = ? , updated_at = ? WHERE id = ?::uuid";
+        jdbcTemplate.update(updateQuery,
+                updatedProduct.getName(), updatedProduct.getBarcode(),
+                updatedProduct.getSku(), updatedProduct.getCategory(),
+                updatedProduct.getBrand(),updatedProduct.getPurchasePrice(),
+                updatedProduct.getSellPrice(), updatedProduct.getUnit(),
+                Timestamp.from(Instant.ofEpochMilli(System.currentTimeMillis())), updatedProduct.getId());
+        return this.getProductById(updatedProduct.getId());
     }
 }

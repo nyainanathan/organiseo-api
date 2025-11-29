@@ -3,6 +3,7 @@ package com.nathan.minierpapi.controller;
 import com.nathan.minierpapi.dto.CreateProduct;
 import com.nathan.minierpapi.dto.FilterProduct;
 import com.nathan.minierpapi.dto.PagedProducts;
+import com.nathan.minierpapi.dto.ProductUpdate;
 import com.nathan.minierpapi.model.product.Products;
 import com.nathan.minierpapi.service.ProductService;
 import lombok.AllArgsConstructor;
@@ -50,6 +51,18 @@ public class ProductController {
         try{
             Products createdProduct = service.createProduct(newProduct);
             return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
+        } catch (Exception e){
+            e.printStackTrace();
+            log.error(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("/{productId}")
+    public ResponseEntity<Products> updateProduct(@PathVariable String productId, @RequestBody ProductUpdate updatedProduct) {
+        try{
+            Products product = service.updateProduct(updatedProduct);
+            return new ResponseEntity<>(product, HttpStatus.OK);
         } catch (Exception e){
             e.printStackTrace();
             log.error(e.getMessage());

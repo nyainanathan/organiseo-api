@@ -11,7 +11,7 @@ public class TimeUtils {
             return null;
         }
         return Instant.parse(
-                time.substring(0,10) + "T"+time.substring(11,23) + "Z"
+                time.substring(0,10) + "T"+time.substring(11,20) + "Z"
         );
     }
 }
