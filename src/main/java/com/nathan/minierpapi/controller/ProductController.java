@@ -33,6 +33,18 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/{productId}")
+    public ResponseEntity<Products> getProductById(@PathVariable String productId) {
+        try{
+            Products product = service.getProductById(productId);
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping("")
     public ResponseEntity<Products> createProduct(@RequestBody CreateProduct newProduct) {
         try{

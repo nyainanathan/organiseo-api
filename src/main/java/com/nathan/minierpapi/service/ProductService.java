@@ -23,4 +23,9 @@ public class ProductService {
     public PagedProducts getAllProducts(FilterProduct filters) {
         return repo.getAllProducts(filters);
     }
+
+    public Products getProductById(String id) {
+        return repo.getProductById(id);
+    }
+
 }

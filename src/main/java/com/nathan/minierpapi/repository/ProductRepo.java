@@ -24,7 +24,7 @@ public class ProductRepo {
     private JdbcTemplate jdbcTemplate;
     private ProductRowMapper productRowMapper;
 
-    private Products getProductById(String id) {
+    public Products getProductById(String id) {
         return jdbcTemplate.queryForObject("SELECT * FROM products WHERE id = ?::uuid", productRowMapper, id);
     }
 
