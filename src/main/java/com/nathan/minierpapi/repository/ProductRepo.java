@@ -33,5 +33,9 @@ public class ProductRepo {
         );
     }
 
+    public Products createProduct(CreateProduct newProduct){
+        String insertQuery = "INSERT INTO products (name, bar_code, sku, category, brand, purchase_price, unit, updated_at, sell_price) VALUES (?, ?, ?, ?, ?, ?, ?, now(), ?) RETURNING *";
+        return jdbcTemplate.queryForObject(insertQuery, this::mapProduct, newProduct.getName(), newProduct.getBarcode(), newProduct.getSku(), newProduct.getCategory(), newProduct.getBrand(), newProduct.getPurchasePrice(),newProduct.getUnit(), newProduct.getSellPrice());
+    }
 
 }
