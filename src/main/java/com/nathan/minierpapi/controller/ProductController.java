@@ -1,9 +1,9 @@
 package com.nathan.minierpapi.controller;
 
-import com.nathan.minierpapi.dto.CreateProduct;
-import com.nathan.minierpapi.dto.FilterProduct;
-import com.nathan.minierpapi.dto.PagedProducts;
-import com.nathan.minierpapi.dto.ProductUpdate;
+import com.nathan.minierpapi.dto.product.CreateProduct;
+import com.nathan.minierpapi.dto.product.FilterProduct;
+import com.nathan.minierpapi.dto.product.PagedProducts;
+import com.nathan.minierpapi.dto.product.ProductUpdate;
 import com.nathan.minierpapi.model.product.Products;
 import com.nathan.minierpapi.service.ProductService;
 import lombok.AllArgsConstructor;
@@ -11,8 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController

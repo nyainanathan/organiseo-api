@@ -1,11 +1,9 @@
 package com.nathan.minierpapi.model.product;
 
-import com.nathan.minierpapi.dto.CreateProduct;
-import lombok.AllArgsConstructor;
+import com.nathan.minierpapi.dto.product.CreateProduct;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 

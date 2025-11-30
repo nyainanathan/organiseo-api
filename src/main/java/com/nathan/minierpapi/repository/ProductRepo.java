@@ -1,12 +1,11 @@
 package com.nathan.minierpapi.repository;
 
-import com.nathan.minierpapi.dto.CreateProduct;
-import com.nathan.minierpapi.dto.FilterProduct;
-import com.nathan.minierpapi.dto.PagedProducts;
-import com.nathan.minierpapi.dto.ProductUpdate;
+import com.nathan.minierpapi.dto.product.CreateProduct;
+import com.nathan.minierpapi.dto.product.FilterProduct;
+import com.nathan.minierpapi.dto.product.PagedProducts;
+import com.nathan.minierpapi.dto.product.ProductUpdate;
 import com.nathan.minierpapi.mapper.ProductRowMapper;
 import com.nathan.minierpapi.model.product.Products;
-import com.nathan.minierpapi.utils.TimeUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;

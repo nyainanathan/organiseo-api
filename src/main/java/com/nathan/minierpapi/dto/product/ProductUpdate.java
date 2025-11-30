@@ -1,11 +1,11 @@
-package com.nathan.minierpapi.dto;
+package com.nathan.minierpapi.dto.product;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductUpdate extends CreateProduct{
+public class ProductUpdate extends CreateProduct {
 
     private String id;
 

@@ -1,4 +1,4 @@
-package com.nathan.minierpapi.dto;
+package com.nathan.minierpapi.dto.product;
 
 import lombok.*;
 

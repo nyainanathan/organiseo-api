@@ -1,6 +1,5 @@
-package com.nathan.minierpapi.dto;
+package com.nathan.minierpapi.dto.product;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
