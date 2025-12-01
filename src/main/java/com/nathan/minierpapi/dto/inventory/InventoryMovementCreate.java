@@ -13,4 +13,5 @@ public class InventoryMovementCreate {
     private int quantity;
     private String reason;
     private String reference;
+    private String createdBy;
 }
