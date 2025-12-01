@@ -1,5 +1,6 @@
 package com.nathan.minierpapi.dto.product;
 
+import com.nathan.minierpapi.dto.PagedResult;
 import com.nathan.minierpapi.model.product.Products;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +10,11 @@ import java.util.List;
 
 @Setter
 @Getter
-@AllArgsConstructor
-public class PagedProducts {
-    private int total;
-    private int page;
-    private int limit;
+public class PagedProducts extends PagedResult {
     private List<Products> items;
+
+    public PagedProducts(int total, int page, int size, List<Products> items) {
+        super(total, page, size);
+        this.items = items;
+    }
 }
