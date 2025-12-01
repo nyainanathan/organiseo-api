@@ -1,5 +1,6 @@
-package com.nathan.minierpapi.dto.inventory;
+package com.nathan.minierpapi.model.inventory;
 
+import com.nathan.minierpapi.dto.inventory.InventoryMovementType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
