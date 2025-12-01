@@ -10,7 +10,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
-import java.sql.Statement;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -23,6 +23,11 @@ public class SupplierRepo {
     public Supplier getSupplierById(String id) {
         String selectQuery = "SELECT * FROM suppliers WHERE id = ?::uuid";
         return jdbcTemplate.queryForObject(selectQuery, supplierRowMapper, id);
+    }
+
+    public List<Supplier> getAllSuppliers() {
+        String selectQuery = "SELECT * FROM suppliers";
+        return jdbcTemplate.query(selectQuery, supplierRowMapper);
     }
 
     public Supplier createSupplier(SupplierMinimumInfo newSupplier){

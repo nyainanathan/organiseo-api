@@ -16,8 +16,6 @@ public class SupplierRowMapper implements RowMapper<Supplier> {
 
     @Override
     public Supplier mapRow(ResultSet rs, int rowNum) throws SQLException {
-        System.out.println(rs.getString("id"));
-
         return new  Supplier(
             rs.getString("name"),
                 rs.getString("contact_name"),
