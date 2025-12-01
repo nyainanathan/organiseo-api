@@ -3,11 +3,13 @@ package com.nathan.minierpapi.model.inventory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.Instant;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 public class InventoryItem {
     private String productId;

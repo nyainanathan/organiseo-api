@@ -8,6 +8,7 @@ import com.nathan.minierpapi.model.inventory.InventoryMovement;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,6 +29,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class InventoryRepo {
 
+    private final JdbcClient jdbcClient;
     private JdbcTemplate jdbcTemplate;
     private InventoryRowMapper  inventoryRowMapper;
     private InventoryMovementRowMapper inventoryMovementRowMapper;
@@ -105,4 +108,10 @@ public class InventoryRepo {
         return this.getInventoryMovementById(idAsString);
     }
 
+        public List<InventoryItem> getItems(String selectQuery, String productId){
+        return productId != null ?
+                jdbcTemplate.query(selectQuery, inventoryRowMapper, productId)
+                : jdbcTemplate.query(selectQuery, inventoryRowMapper);
+
+    }
 }
