@@ -71,4 +71,8 @@ public class InventoryService {
                 filteredInventoryItems
         );
     }
+
+    public InventoryMovement getInventoryMovement(String movementId) throws SQLException {
+        return repo.getInventoryMovementById(movementId);
+    }
 }

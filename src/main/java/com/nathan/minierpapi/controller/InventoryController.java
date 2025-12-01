@@ -41,4 +41,15 @@ public class InventoryController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/{movementId}")
+    public ResponseEntity<InventoryMovement> getInventoryMovement(@PathVariable String movementId){
+        try{
+            InventoryMovement movement = service.getInventoryMovement(movementId);
+            return new ResponseEntity<>(movement, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
