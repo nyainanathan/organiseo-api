@@ -16,4 +16,12 @@ public class InventoryItem {
     private String location;
     private float avgCoast;
     private Instant lastUpdated;
+
+    public void removeStock(int amount) {
+        this.setQuantity(this.getQuantity() - amount);
+    }
+
+    public void addStock(int amount) {
+        this.setQuantity(this.getQuantity() + amount);
+    }
 }

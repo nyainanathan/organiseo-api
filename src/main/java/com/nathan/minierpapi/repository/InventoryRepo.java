@@ -41,6 +41,11 @@ public class InventoryRepo {
         }
     }
 
+    public void adjustInventoryQuanity(String productId, int newQuantity) {
+        String updateQuery = "UPDATE inventory_items SET quantity = ? WHERE product_id = ?::uuid";
+        jdbcTemplate.update(updateQuery, newQuantity, productId);
+    }
+
     public Optional<InventoryItem> addItemToInventory(String productId){
         String insertQuery = "INSERT INTO inventory_items (product_id, quantity, reserved, location, average_cost, last_updated) VALUES (?::uuid, ?, ?, ?, ?, ?)";
 

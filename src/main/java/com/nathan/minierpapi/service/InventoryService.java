@@ -1,6 +1,7 @@
 package com.nathan.minierpapi.service;
 
 import com.nathan.minierpapi.dto.inventory.InventoryMovementCreate;
+import com.nathan.minierpapi.dto.inventory.InventoryMovementType;
 import com.nathan.minierpapi.model.inventory.InventoryItem;
 import com.nathan.minierpapi.model.inventory.InventoryMovement;
 import com.nathan.minierpapi.repository.InventoryRepo;
@@ -19,13 +20,16 @@ public class InventoryService {
     public InventoryMovement createInventoryMovement(InventoryMovementCreate newMovement, String userId) throws SQLException {
         Optional<InventoryItem> concernedItem = repo.getInventoryItemById(newMovement.getProductId());
         if(concernedItem.isEmpty()){
-            System.out.println("This item is not in the inventory yet!");
             repo.addItemToInventory(newMovement.getProductId());
-            System.out.println("The item has been added to the inventory!");
         } else {
-            System.out.println("This product already exists;");
+            if(newMovement.getType() ==  InventoryMovementType.OUT ||  newMovement.getType() ==  InventoryMovementType.SPOILAGE){
+                concernedItem.get().removeStock(newMovement.getQuantity());
+            } else {
+                concernedItem.get().addStock(newMovement.getQuantity());
+            }
+
+            repo.adjustInventoryQuanity(concernedItem.get().getProductId(), concernedItem.get().getQuantity());
         }
-        System.out.println("In the service");
         return repo.createInventoryMovement(newMovement, userId);
     }
 }
