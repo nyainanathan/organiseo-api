@@ -1,9 +1,13 @@
 package com.nathan.minierpapi.model;
 
 import com.nathan.minierpapi.dto.supplier.SupplierCreate;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.time.Instant;
 
+@Getter
+@ToString(callSuper = true)
 public class Supplier extends SupplierCreate{
     private String id;
     private Instant createdAt;
