@@ -6,6 +6,7 @@ import com.nathan.minierpapi.mapper.InventoryRowMapper;
 import com.nathan.minierpapi.model.inventory.InventoryItem;
 import com.nathan.minierpapi.model.inventory.InventoryMovement;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 //TODO: Post route for creating inventory movement
@@ -29,30 +31,37 @@ public class InventoryRepo {
     private InventoryRowMapper  inventoryRowMapper;
     private InventoryMovementRowMapper inventoryMovementRowMapper;
 
-    public InventoryItem getInventoryItemById(String id) throws SQLException {
-        String selectQuery = "SELECT * FROM inventory_items WHERE product_id = ?::uuid";
-        return jdbcTemplate.queryForObject(selectQuery, inventoryRowMapper, id);
+    public Optional<InventoryItem> getInventoryItemById(String id) {
+        String selectQuery = "SELECT * FROM inventory_items WHERE product_id = CAST(? AS uuid)";
+        try {
+            InventoryItem item = jdbcTemplate.queryForObject(selectQuery, inventoryRowMapper, id);
+            return Optional.ofNullable(item);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
-//    public InventoryItem addItemToInventory(String productId){
-//        String insertQuery = "INSERT INTO inventory_items (product_id, quantity, reserved, location, average_cost, last_updated) VALUES (?::uuid, ?, ?, ?, ?, ?)";
-//
-//        KeyHolder keyHolder = new GeneratedKeyHolder();
-//
-//        jdbcTemplate.update(con -> {
-//            PreparedStatement ps = con.prepareStatement(insertQuery, new String[]{"product_id"});
-//            ps.setString(1, productId);
-//            ps.setInt(2, 1);
-//            ps.setInt(3, 1);
-//            ps.setString(4, "stock");
-//            ps.setInt(5, 0);
-//            ps.setTimestamp(6, new java.sql.Timestamp(System.currentTimeMillis()));
-//            return ps;
-//        }, keyHolder);
-//
-//
-//
-//    }
+    public Optional<InventoryItem> addItemToInventory(String productId){
+        String insertQuery = "INSERT INTO inventory_items (product_id, quantity, reserved, location, average_cost, last_updated) VALUES (?::uuid, ?, ?, ?, ?, ?)";
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(con -> {
+            PreparedStatement ps = con.prepareStatement(insertQuery, new String[]{"product_id"});
+            ps.setString(1, productId);
+            ps.setInt(2, 1);
+            ps.setInt(3, 1);
+            ps.setString(4, "stock");
+            ps.setInt(5, 0);
+            ps.setTimestamp(6, new java.sql.Timestamp(System.currentTimeMillis()));
+            return ps;
+        }, keyHolder);
+        
+        UUID itemId = (UUID) keyHolder.getKeys().get("product_id");
+        String idAsString = String.valueOf(itemId);
+        
+        return this.getInventoryItemById(idAsString);
+    }
 
     public InventoryMovement getInventoryMovementById(String id) throws SQLException {
         String  selectQuery = "SELECT * FROM inventory_movement WHERE id = ?::uuid";
