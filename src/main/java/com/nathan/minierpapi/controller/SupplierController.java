@@ -1,6 +1,7 @@
 package com.nathan.minierpapi.controller;
 
-import com.nathan.minierpapi.dto.supplier.SupplierCreate;
+
+import com.nathan.minierpapi.dto.supplier.SupplierMinimumInfo;
 import com.nathan.minierpapi.model.Supplier;
 import com.nathan.minierpapi.service.SupplierService;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ public class SupplierController {
     private  final SupplierService service;
 
     @PostMapping("")
-    public ResponseEntity<Supplier> createSupplier(@RequestBody SupplierCreate supplierCreate) {
+    public ResponseEntity<Supplier> createSupplier(@RequestBody SupplierMinimumInfo supplierCreate) {
         try{
             Supplier newSupplier = service.createSupplier(supplierCreate);
             System.out.println(newSupplier.toString());
@@ -37,6 +38,18 @@ public class SupplierController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PutMapping("/{supplierId}")
+    public ResponseEntity<Supplier> updateSupplier(@PathVariable String supplierId, @RequestBody SupplierMinimumInfo updatedSupplier) {
+        try{
+            Supplier supplier = service.updateSupplier(updatedSupplier, supplierId);
+            return new  ResponseEntity<>(supplier, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
 }

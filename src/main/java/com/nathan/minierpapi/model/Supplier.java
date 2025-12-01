@@ -1,6 +1,6 @@
 package com.nathan.minierpapi.model;
 
-import com.nathan.minierpapi.dto.supplier.SupplierCreate;
+import com.nathan.minierpapi.dto.supplier.SupplierMinimumInfo;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -8,7 +8,7 @@ import java.time.Instant;
 
 @Getter
 @ToString(callSuper = true)
-public class Supplier extends SupplierCreate{
+public class Supplier extends SupplierMinimumInfo {
     private String id;
     private Instant createdAt;
 
@@ -17,4 +17,5 @@ public class Supplier extends SupplierCreate{
         this.id = id;
         this.createdAt = createdAt;
     }
+
 }

@@ -1,6 +1,6 @@
 package com.nathan.minierpapi.repository;
 
-import com.nathan.minierpapi.dto.supplier.SupplierCreate;
+import com.nathan.minierpapi.dto.supplier.SupplierMinimumInfo;
 import com.nathan.minierpapi.mapper.SupplierRowMapper;
 import com.nathan.minierpapi.model.Supplier;
 import lombok.AllArgsConstructor;
@@ -25,7 +25,7 @@ public class SupplierRepo {
         return jdbcTemplate.queryForObject(selectQuery, supplierRowMapper, id);
     }
 
-    public Supplier createSupplier(SupplierCreate newSupplier){
+    public Supplier createSupplier(SupplierMinimumInfo newSupplier){
         String insertQuery = "INSERT INTO suppliers (name, contact_name, phone, email, address) VALUES (?, ?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -43,5 +43,11 @@ public class SupplierRepo {
         UUID supplierID = (UUID) keyHolder.getKeys().get("id");
 
         return this.getSupplierById(supplierID.toString());
+    }
+
+    public Supplier updateSupplier(SupplierMinimumInfo updatedSupplier, String id){
+        String updateQuery = "UPDATE suppliers SET name= ?, contact_name = ? , phone = ? , email = ? , address = ? WHERE id = ?::uuid ";
+        jdbcTemplate.update(updateQuery, updatedSupplier.getName(), updatedSupplier.getContactName(), updatedSupplier.getPhone(), updatedSupplier.getEmail(), updatedSupplier.getAddress(), id);
+        return this.getSupplierById(id);
     }
 }

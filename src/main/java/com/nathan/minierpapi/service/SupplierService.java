@@ -1,6 +1,6 @@
 package com.nathan.minierpapi.service;
 
-import com.nathan.minierpapi.dto.supplier.SupplierCreate;
+import com.nathan.minierpapi.dto.supplier.SupplierMinimumInfo;
 import com.nathan.minierpapi.model.Supplier;
 import com.nathan.minierpapi.repository.SupplierRepo;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,11 @@ public class SupplierService {
         return repo.getSupplierById(id);
     }
 
-    public Supplier createSupplier(SupplierCreate  supplierCreate) {
+    public Supplier createSupplier(SupplierMinimumInfo supplierCreate) {
         return repo.createSupplier(supplierCreate);
+    }
+
+    public Supplier updateSupplier(SupplierMinimumInfo supplier, String id) {
+        return repo.updateSupplier(supplier, id);
     }
 }

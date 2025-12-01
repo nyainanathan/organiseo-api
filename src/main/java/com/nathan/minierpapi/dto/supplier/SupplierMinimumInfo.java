@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 @ToString
-public class SupplierCreate {
+public class SupplierMinimumInfo {
     private String name;
     private String contactName;
     private String phone;
