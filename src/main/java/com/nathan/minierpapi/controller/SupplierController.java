@@ -6,10 +6,7 @@ import com.nathan.minierpapi.service.SupplierService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
@@ -25,6 +22,17 @@ public class SupplierController {
             System.out.println(newSupplier.toString());
             System.out.println(newSupplier.getAddress());
             return new ResponseEntity<>(newSupplier, HttpStatus.CREATED);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{supplierId}")
+    public ResponseEntity<Supplier> getSupplierById(@PathVariable String supplierId) {
+        try{
+            Supplier supplier = service.getSupplierByID(supplierId);
+            return new  ResponseEntity<>(supplier, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

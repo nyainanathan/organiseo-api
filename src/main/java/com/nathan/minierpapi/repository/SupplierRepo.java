@@ -20,7 +20,7 @@ public class SupplierRepo {
     private final JdbcTemplate jdbcTemplate;
     private final SupplierRowMapper supplierRowMapper;
 
-    private Supplier getSupplierById(String id) {
+    public Supplier getSupplierById(String id) {
         String selectQuery = "SELECT * FROM suppliers WHERE id = ?::uuid";
         return jdbcTemplate.queryForObject(selectQuery, supplierRowMapper, id);
     }

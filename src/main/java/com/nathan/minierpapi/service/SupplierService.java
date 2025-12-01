@@ -12,6 +12,10 @@ public class SupplierService {
 
     private final SupplierRepo repo;
 
+    public Supplier getSupplierByID(String id) {
+        return repo.getSupplierById(id);
+    }
+
     public Supplier createSupplier(SupplierCreate  supplierCreate) {
         return repo.createSupplier(supplierCreate);
     }
