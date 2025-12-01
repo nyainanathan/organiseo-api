@@ -13,6 +13,9 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.UUID;
 
 //TODO: Post route for creating inventory movement
@@ -26,20 +29,45 @@ public class InventoryRepo {
     private InventoryRowMapper  inventoryRowMapper;
     private InventoryMovementRowMapper inventoryMovementRowMapper;
 
-    private InventoryItem getInventoryItemById(String id) throws SQLException {
+    public InventoryItem getInventoryItemById(String id) throws SQLException {
         String selectQuery = "SELECT * FROM inventory_items WHERE product_id = ?::uuid";
         return jdbcTemplate.queryForObject(selectQuery, inventoryRowMapper, id);
     }
 
-    private InventoryMovement getInventoryMovementById(String id) throws SQLException {
+//    public InventoryItem addItemToInventory(String productId){
+//        String insertQuery = "INSERT INTO inventory_items (product_id, quantity, reserved, location, average_cost, last_updated) VALUES (?::uuid, ?, ?, ?, ?, ?)";
+//
+//        KeyHolder keyHolder = new GeneratedKeyHolder();
+//
+//        jdbcTemplate.update(con -> {
+//            PreparedStatement ps = con.prepareStatement(insertQuery, new String[]{"product_id"});
+//            ps.setString(1, productId);
+//            ps.setInt(2, 1);
+//            ps.setInt(3, 1);
+//            ps.setString(4, "stock");
+//            ps.setInt(5, 0);
+//            ps.setTimestamp(6, new java.sql.Timestamp(System.currentTimeMillis()));
+//            return ps;
+//        }, keyHolder);
+//
+//
+//
+//    }
+
+    public InventoryMovement getInventoryMovementById(String id) throws SQLException {
         String  selectQuery = "SELECT * FROM inventory_movement WHERE id = ?::uuid";
         return jdbcTemplate.queryForObject(selectQuery, inventoryMovementRowMapper, id);
     }
 
     public InventoryMovement createInventoryMovement(InventoryMovementCreate newMovement, String userId) throws SQLException {
-        String insertQuery = "INSERT INTO inventory_movement (product_id, quantity, reason, reference, created_by) VALUES (?::uuid, ?, ?, ?, ?::uuid)";
+        System.out.println("In the repo");
+        String insertQuery = "INSERT INTO inventory_movement (product_id, quantity, reason, reference, created_by, type) VALUES (?::uuid, ?, ?, ?, ?::uuid, ?)";
+
+        System.out.println(insertQuery);
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        System.out.println("ok 1");
 
         jdbcTemplate.update(conn -> {
             PreparedStatement ps = conn.prepareStatement(insertQuery, new String[]{"id"});
@@ -48,12 +76,17 @@ public class InventoryRepo {
             ps.setString(3, newMovement.getReason());
             ps.setString(4, newMovement.getReference());
             ps.setString(5, userId);
+            ps.setString(6, String.valueOf(newMovement.getType()));
             return ps;
         }, keyHolder);
+
+        System.out.println("ok 2");
 
         UUID id = (UUID) keyHolder.getKeys().get("id");
 
         String idAsString = id.toString();
+
+        System.out.println(idAsString);
 
         return this.getInventoryMovementById(idAsString);
     }

@@ -24,6 +24,7 @@ public class InventoryController {
     public ResponseEntity<InventoryMovement> createInventoryMovement(@RequestBody InventoryMovementCreate newMovement) throws SQLException {
         try{
             InventoryMovement movement = service.createInventoryMovement(newMovement, newMovement.getCreatedBy());
+            System.out.println("in the controller");
             return new  ResponseEntity<>(movement, HttpStatus.CREATED);
         } catch (Exception e){
             e.printStackTrace();
