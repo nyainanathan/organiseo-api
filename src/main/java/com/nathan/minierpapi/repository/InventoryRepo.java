@@ -22,9 +22,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-//TODO: Post route for creating inventory movement
-//TODO: Get routes for fetching all movement and one movement
-
 @Repository
 @AllArgsConstructor
 public class InventoryRepo {

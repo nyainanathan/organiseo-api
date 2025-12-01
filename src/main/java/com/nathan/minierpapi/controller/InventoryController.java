@@ -18,7 +18,7 @@ import java.sql.SQLException;
 public class InventoryController {
 
     private final InventoryService service;
-
+    //FIXME: handle different movement creation exception
     @PostMapping("")
     public ResponseEntity<InventoryMovement> createInventoryMovement(@RequestBody InventoryMovementCreate newMovement) throws SQLException {
         try{
