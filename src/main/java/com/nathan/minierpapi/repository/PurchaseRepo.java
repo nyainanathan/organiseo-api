@@ -11,6 +11,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -18,6 +19,13 @@ import java.util.UUID;
 public class PurchaseRepo {
 
     private final JdbcTemplate jdbcTemplate;
+
+    private void attachItemsToPurchase(List<PurchaseItem> items, String purchaseID){
+        for(PurchaseItem item : items){
+            String insertQuery = "INSERT INTO purchase_items VALUES (?::uuid, ?::uuid, ?, ?, ?,?)";
+            jdbcTemplate.update(insertQuery, item.getProductId(), purchaseID, item.getQuantity(), item.getUnitCost(), item.getBatch(), item.getExpiryDate());
+        }
+    }
 
     //returns the new purchase ID
     public String createPurchase(PurchaseCreate purchase, float total) {
