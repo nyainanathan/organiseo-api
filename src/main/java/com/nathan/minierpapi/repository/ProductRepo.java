@@ -4,7 +4,7 @@ import com.nathan.minierpapi.dto.product.CreateProduct;
 import com.nathan.minierpapi.dto.product.FilterProduct;
 import com.nathan.minierpapi.dto.product.PagedProducts;
 import com.nathan.minierpapi.dto.product.ProductUpdate;
-import com.nathan.minierpapi.mapper.ProductRowMapper;
+import com.nathan.minierpapi.mapper.inventory.ProductRowMapper;
 import com.nathan.minierpapi.model.product.Products;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;

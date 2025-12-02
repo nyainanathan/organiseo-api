@@ -1,4 +1,4 @@
-package com.nathan.minierpapi.mapper;
+package com.nathan.minierpapi.mapper.purchase;
 
 import com.nathan.minierpapi.model.purchase.PurchaseItem;
 import com.nathan.minierpapi.utils.TimeUtils;

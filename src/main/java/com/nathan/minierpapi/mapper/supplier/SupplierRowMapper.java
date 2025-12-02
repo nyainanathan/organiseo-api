@@ -1,4 +1,4 @@
-package com.nathan.minierpapi.mapper;
+package com.nathan.minierpapi.mapper.supplier;
 
 import com.nathan.minierpapi.model.Supplier;
 import com.nathan.minierpapi.utils.TimeUtils;

@@ -1,8 +1,8 @@
 package com.nathan.minierpapi.repository;
 
 import com.nathan.minierpapi.dto.inventory.InventoryMovementCreate;
-import com.nathan.minierpapi.mapper.InventoryMovementRowMapper;
-import com.nathan.minierpapi.mapper.InventoryRowMapper;
+import com.nathan.minierpapi.mapper.inventory.InventoryMovementRowMapper;
+import com.nathan.minierpapi.mapper.inventory.InventoryRowMapper;
 import com.nathan.minierpapi.model.inventory.InventoryItem;
 import com.nathan.minierpapi.model.inventory.InventoryMovement;
 import lombok.AllArgsConstructor;
@@ -15,9 +15,6 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

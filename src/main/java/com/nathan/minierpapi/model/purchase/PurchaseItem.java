@@ -12,7 +12,7 @@ import java.time.Instant;
 public class PurchaseItem {
     private String productId;
     private int quantity;
-    private float unitCoast;
+    private float unitCost;
     private String batch;
     private Instant expiryDate;
 }

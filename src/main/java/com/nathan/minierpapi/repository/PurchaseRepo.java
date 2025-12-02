@@ -1,10 +1,11 @@
 package com.nathan.minierpapi.repository;
 
 import com.nathan.minierpapi.dto.purchase.PurchaseCreate;
+import com.nathan.minierpapi.mapper.purchase.PurchaseItemRowMapper;
+import com.nathan.minierpapi.mapper.purchase.PurchaseRowMapper;
 import com.nathan.minierpapi.model.purchase.Purchase;
 import com.nathan.minierpapi.model.purchase.PurchaseItem;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -12,13 +13,24 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.util.List;
-import java.util.UUID;
 
 @Repository
 @AllArgsConstructor
 public class PurchaseRepo {
 
     private final JdbcTemplate jdbcTemplate;
+    private final PurchaseItemRowMapper purchaseItemRowMapper;
+    private final PurchaseRowMapper purchaseRowMapper;
+
+    public Purchase getbyId(String id){
+        String selectQuery = "SELECT * FROM purchases WHERE id = ?::uuid";
+        return jdbcTemplate.queryForObject(selectQuery, purchaseRowMapper, id);
+    }
+
+    public List<PurchaseItem> getItemsRelatedToAPurchase(String purchaseID){
+        String selectQuery = "SELECT * FROM purchase_items WHERE purchase_id = ?::uuid";
+        return jdbcTemplate.query(selectQuery, purchaseItemRowMapper, purchaseID);
+    }
 
     private void attachItemsToPurchase(List<PurchaseItem> items, String purchaseID){
         for(PurchaseItem item : items){

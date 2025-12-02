@@ -1,7 +1,7 @@
 package com.nathan.minierpapi.repository;
 
 import com.nathan.minierpapi.dto.supplier.SupplierMinimumInfo;
-import com.nathan.minierpapi.mapper.SupplierRowMapper;
+import com.nathan.minierpapi.mapper.supplier.SupplierRowMapper;
 import com.nathan.minierpapi.model.Supplier;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
