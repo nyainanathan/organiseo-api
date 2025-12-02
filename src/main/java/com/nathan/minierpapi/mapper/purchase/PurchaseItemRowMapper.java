@@ -21,7 +21,7 @@ public class PurchaseItemRowMapper implements RowMapper<PurchaseItem> {
                 rs.getInt("quantity"),
                 rs.getFloat("unit_cost"),
                 rs.getString("batch"),
-                timeUtils.convertToInstant(rs.getString("expiration_date"))
+                rs.getDate("expiration_date").toLocalDate()
         );
     }
 }

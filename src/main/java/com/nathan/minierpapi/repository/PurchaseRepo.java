@@ -22,7 +22,7 @@ public class PurchaseRepo {
     private final PurchaseItemRowMapper purchaseItemRowMapper;
     private final PurchaseRowMapper purchaseRowMapper;
 
-    public Purchase getbyId(String id){
+    public Purchase getbyId(String id)  {
         String selectQuery = "SELECT * FROM purchases WHERE id = ?::uuid";
         return jdbcTemplate.queryForObject(selectQuery, purchaseRowMapper, id);
     }
@@ -32,7 +32,7 @@ public class PurchaseRepo {
         return jdbcTemplate.query(selectQuery, purchaseItemRowMapper, purchaseID);
     }
 
-    private void attachItemsToPurchase(List<PurchaseItem> items, String purchaseID){
+    public void attachItemsToPurchase(List<PurchaseItem> items, String purchaseID){
         for(PurchaseItem item : items){
             String insertQuery = "INSERT INTO purchase_items VALUES (?::uuid, ?::uuid, ?, ?, ?,?)";
             jdbcTemplate.update(insertQuery, item.getProductId(), purchaseID, item.getQuantity(), item.getUnitCost(), item.getBatch(), item.getExpiryDate());
@@ -40,7 +40,7 @@ public class PurchaseRepo {
     }
 
     //returns the new purchase ID
-    public String createPurchase(PurchaseCreate purchase, float total) {
+    public String createPurchase(PurchaseCreate purchase, double total) {
         String insertQuery = "INSERT INTO purchases (supplier_id, reference, status, total) VALUES (?::uuid, ?, ?, ?)";
 
         KeyHolder keyholder = new GeneratedKeyHolder();
@@ -50,10 +50,10 @@ public class PurchaseRepo {
             ps.setString(1, purchase.getSupplierId());
             ps.setString(2, purchase.getReference());
             ps.setString(3, purchase.getStatus().toString());
-            ps.setFloat(4, total);
+            ps.setDouble(4, total);
             return ps;
         }, keyholder);
 
-        return keyholder.getKeys().get("key").toString();
+        return keyholder.getKeys().get("id").toString();
     }
 }

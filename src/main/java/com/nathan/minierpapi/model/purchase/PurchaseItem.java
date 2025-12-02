@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,5 +15,5 @@ public class PurchaseItem {
     private int quantity;
     private float unitCost;
     private String batch;
-    private Instant expiryDate;
+    private LocalDate expiryDate;
 }

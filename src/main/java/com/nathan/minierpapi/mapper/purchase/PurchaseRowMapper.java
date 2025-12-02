@@ -24,7 +24,7 @@ public class PurchaseRowMapper implements RowMapper<Purchase> {
                 rs.getString("reference"),
                 PurchaseStatus.valueOf(rs.getString("status")),
                 rs.getFloat("total"),
-                timeUtils.convertToInstant(rs.getString("created_at"))
+                rs.getDate("created_at").toLocalDate()
         );
     }
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +20,9 @@ public class Purchase {
     private PurchaseStatus status;
     private List<PurchaseItem> items;
     private float total;
-    private Instant createdAt;
+    private LocalDate createdAt;
 
-    public Purchase(String id, String supplierId, String reference, PurchaseStatus status, float total, Instant createdAt) {
+    public Purchase(String id, String supplierId, String reference, PurchaseStatus status, float total, LocalDate createdAt) {
         this.id = id;
         this.supplierId = supplierId;
         this.reference = reference;

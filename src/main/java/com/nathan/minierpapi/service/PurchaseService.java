@@ -13,10 +13,19 @@ public class PurchaseService {
     private final PurchaseRepo repo;
 
     public Purchase createPurchase(PurchaseCreate purchase) {
+
         double purchaseTotal = purchase.getItems().stream()
-                .mapToDouble(p -> p.getQuantity() * p.getUnitCoast())
+                .mapToDouble(p -> p.getQuantity() * p.getUnitCost())
                 .sum();
 
+        String newPurchaseId = repo.createPurchase(purchase, purchaseTotal);
 
+        repo.attachItemsToPurchase(purchase.getItems(), newPurchaseId);
+
+        Purchase thePurchase = repo.getbyId(newPurchaseId);
+
+        thePurchase.setItems(repo.getItemsRelatedToAPurchase(newPurchaseId));
+
+        return thePurchase;
     }
 }
