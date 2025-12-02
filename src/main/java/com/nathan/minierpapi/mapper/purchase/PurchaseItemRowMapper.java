@@ -4,11 +4,13 @@ import com.nathan.minierpapi.model.purchase.PurchaseItem;
 import com.nathan.minierpapi.utils.TimeUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @AllArgsConstructor
+@Component
 public class PurchaseItemRowMapper implements RowMapper<PurchaseItem> {
 
     private final TimeUtils timeUtils;
