@@ -54,6 +54,11 @@ public class PurchaseService {
 
         List<Purchase> purchases = repo.getAllPurchase(selectQuery.toString(), queryParams, filters.getStatus());
 
+        for(Purchase p : purchases){
+            List<PurchaseItem> purchaseItems = repo.getItemsRelatedToAPurchase(p.getId());
+            p.setItems(purchaseItems);
+        }
+
         return new PagedPurchase(
                 purchases.size(),
                 purchases
