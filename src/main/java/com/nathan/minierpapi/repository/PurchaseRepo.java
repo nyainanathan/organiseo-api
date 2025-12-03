@@ -1,6 +1,7 @@
 package com.nathan.minierpapi.repository;
 
 import com.nathan.minierpapi.dto.purchase.PurchaseCreate;
+import com.nathan.minierpapi.dto.purchase.PurchaseStatus;
 import com.nathan.minierpapi.mapper.purchase.PurchaseItemRowMapper;
 import com.nathan.minierpapi.mapper.purchase.PurchaseRowMapper;
 import com.nathan.minierpapi.model.purchase.Purchase;
@@ -36,6 +37,20 @@ public class PurchaseRepo {
         for(PurchaseItem item : items){
             String insertQuery = "INSERT INTO purchase_items VALUES (?::uuid, ?::uuid, ?, ?, ?,?)";
             jdbcTemplate.update(insertQuery, item.getProductId(), purchaseID, item.getQuantity(), item.getUnitCost(), item.getBatch(), item.getExpiryDate());
+        }
+    }
+
+    public List<Purchase> getAllPurchase(String query, List<Integer> params, PurchaseStatus status){
+        if(status == null) {
+            return jdbcTemplate.query(query, purchaseRowMapper, params.toArray());
+        } else {
+            // Combine status with other params
+            Object[] allParams = new Object[params.size() + 1];
+            allParams[0] = status.toString();
+            for(int i = 0; i < params.size(); i++) {
+                allParams[i + 1] = params.get(i);
+            }
+            return jdbcTemplate.query(query, purchaseRowMapper, allParams);
         }
     }
 
