@@ -43,4 +43,15 @@ public class PurchaseController {
             return new  ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/{purchaseId}")
+    public ResponseEntity<Purchase> getPurchase(@PathVariable("purchaseId") String purchaseId) {
+        try{
+            Purchase purchase = service.getById(purchaseId);
+            return  new ResponseEntity<>(purchase, HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

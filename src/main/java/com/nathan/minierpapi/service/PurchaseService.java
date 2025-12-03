@@ -4,6 +4,7 @@ import com.nathan.minierpapi.dto.purchase.PagedPurchase;
 import com.nathan.minierpapi.dto.purchase.PurchaseCreate;
 import com.nathan.minierpapi.dto.purchase.PurchaseFilters;
 import com.nathan.minierpapi.model.purchase.Purchase;
+import com.nathan.minierpapi.model.purchase.PurchaseItem;
 import com.nathan.minierpapi.repository.PurchaseRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,13 @@ import java.util.List;
 public class PurchaseService {
 
     private final PurchaseRepo repo;
+
+    public Purchase getById(String purchaseId) {
+        Purchase purchase = repo.getbyId(purchaseId);
+        List<PurchaseItem> purchaseItems = repo.getItemsRelatedToAPurchase(purchaseId);
+        purchase.setItems(purchaseItems);
+        return purchase;
+    }
 
     public PagedPurchase getAllPurchases(PurchaseFilters filters){
         if(filters.getPage() == 0)
