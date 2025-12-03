@@ -2,6 +2,7 @@ package com.nathan.minierpapi.repository;
 
 import com.nathan.minierpapi.dto.purchase.PurchaseCreate;
 import com.nathan.minierpapi.dto.purchase.PurchaseStatus;
+import com.nathan.minierpapi.dto.purchase.PurchaseUpdate;
 import com.nathan.minierpapi.mapper.purchase.PurchaseItemRowMapper;
 import com.nathan.minierpapi.mapper.purchase.PurchaseRowMapper;
 import com.nathan.minierpapi.model.purchase.Purchase;
@@ -33,10 +34,18 @@ public class PurchaseRepo {
         return jdbcTemplate.query(selectQuery, purchaseItemRowMapper, purchaseID);
     }
 
+    public void removeItemsFromAPurchase(String purchaseID){
+        String deleteQuery = "DELETE FROM purchase_items WHERE purchase_id = ?::uuid";
+        jdbcTemplate.update(deleteQuery, purchaseID);
+    }
+
     public void attachItemsToPurchase(List<PurchaseItem> items, String purchaseID){
-        for(PurchaseItem item : items){
-            String insertQuery = "INSERT INTO purchase_items VALUES (?::uuid, ?::uuid, ?, ?, ?,?)";
-            jdbcTemplate.update(insertQuery, item.getProductId(), purchaseID, item.getQuantity(), item.getUnitCost(), item.getBatch(), item.getExpiryDate());
+
+        if(!items.isEmpty() ){
+            for(PurchaseItem item : items){
+                String insertQuery = "INSERT INTO purchase_items VALUES (?::uuid, ?::uuid, ?, ?, ?,?)";
+                jdbcTemplate.update(insertQuery, item.getProductId(), purchaseID, item.getQuantity(), item.getUnitCost(), item.getBatch(), item.getExpiryDate());
+            }
         }
     }
 
@@ -44,7 +53,7 @@ public class PurchaseRepo {
         if(status == null) {
             return jdbcTemplate.query(query, purchaseRowMapper, params.toArray());
         } else {
-            // Combine status with other params
+
             Object[] allParams = new Object[params.size() + 1];
             allParams[0] = status.toString();
             for(int i = 0; i < params.size(); i++) {
@@ -54,7 +63,6 @@ public class PurchaseRepo {
         }
     }
 
-    //returns the new purchase ID
     public String createPurchase(PurchaseCreate purchase, double total) {
         String insertQuery = "INSERT INTO purchases (supplier_id, reference, status, total) VALUES (?::uuid, ?, ?, ?)";
 
@@ -70,5 +78,11 @@ public class PurchaseRepo {
         }, keyholder);
 
         return keyholder.getKeys().get("id").toString();
+    }
+
+    public void updatePurchase(PurchaseUpdate purchaseUpdate, String purchaseId, double total){
+        String updateQuery = "UPDATE purchases SET status = ? , total = ? WHERE id = ?::uuid ";
+        jdbcTemplate.update(updateQuery, purchaseUpdate.getStatus().toString(), total, purchaseId
+        );
     }
 }

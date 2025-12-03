@@ -3,6 +3,7 @@ package com.nathan.minierpapi.service;
 import com.nathan.minierpapi.dto.purchase.PagedPurchase;
 import com.nathan.minierpapi.dto.purchase.PurchaseCreate;
 import com.nathan.minierpapi.dto.purchase.PurchaseFilters;
+import com.nathan.minierpapi.dto.purchase.PurchaseUpdate;
 import com.nathan.minierpapi.model.purchase.Purchase;
 import com.nathan.minierpapi.model.purchase.PurchaseItem;
 import com.nathan.minierpapi.repository.PurchaseRepo;
@@ -67,7 +68,6 @@ public class PurchaseService {
     }
 
     public Purchase createPurchase(PurchaseCreate purchase) {
-
         double purchaseTotal = purchase.getItems().stream()
                 .mapToDouble(p -> p.getQuantity() * p.getUnitCost())
                 .sum();
@@ -80,6 +80,27 @@ public class PurchaseService {
 
         thePurchase.setItems(repo.getItemsRelatedToAPurchase(newPurchaseId));
 
+        return thePurchase;
+    }
+
+    public Purchase updatePurchase(PurchaseUpdate purchaseUpdate, String purchaseId){
+        repo.removeItemsFromAPurchase(purchaseId);
+        System.out.println("Part 1");
+        System.out.println(purchaseUpdate.toString());
+        purchaseUpdate.getItems().forEach(System.out::println);
+        repo.attachItemsToPurchase(purchaseUpdate.getItems(), purchaseId);
+        System.out.println("Part 2");
+        double newTotal = purchaseUpdate.getItems().stream()
+                .mapToDouble(p -> p.getQuantity() * p.getUnitCost())
+                .sum();
+        System.out.println("Part 3");
+        repo.updatePurchase(purchaseUpdate, purchaseId, newTotal);
+        System.out.println("Part 4");
+        Purchase thePurchase = repo.getbyId(purchaseId);
+        System.out.println("Part 5");
+        List<PurchaseItem> purchaseItems = repo.getItemsRelatedToAPurchase(purchaseId);
+        System.out.println("Part 6");
+        thePurchase.setItems(purchaseItems);
         return thePurchase;
     }
 }

@@ -3,6 +3,7 @@ package com.nathan.minierpapi.controller;
 import com.nathan.minierpapi.dto.purchase.PagedPurchase;
 import com.nathan.minierpapi.dto.purchase.PurchaseCreate;
 import com.nathan.minierpapi.dto.purchase.PurchaseFilters;
+import com.nathan.minierpapi.dto.purchase.PurchaseUpdate;
 import com.nathan.minierpapi.model.purchase.Purchase;
 import com.nathan.minierpapi.service.PurchaseService;
 import lombok.AllArgsConstructor;
@@ -49,6 +50,17 @@ public class PurchaseController {
         try{
             Purchase purchase = service.getById(purchaseId);
             return  new ResponseEntity<>(purchase, HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/{purchaseId}")
+    public ResponseEntity<Purchase> updatePurchase(@RequestBody PurchaseUpdate purchaseUpdate, @PathVariable("purchaseId") String purchaseId) {
+        try{
+            Purchase purchase = service.updatePurchase(purchaseUpdate, purchaseId);
+            return new ResponseEntity<>(purchase, HttpStatus.OK);
         } catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
