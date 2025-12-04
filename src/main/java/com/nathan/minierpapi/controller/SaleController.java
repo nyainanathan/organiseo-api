@@ -1,15 +1,16 @@
 package com.nathan.minierpapi.controller;
 
+import com.nathan.minierpapi.dto.sale.PagedSales;
 import com.nathan.minierpapi.dto.sale.SaleCreate;
+import com.nathan.minierpapi.dto.sale.SalesFilters;
 import com.nathan.minierpapi.model.Sale.Sale;
 import com.nathan.minierpapi.service.SaleService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -26,6 +27,17 @@ public class SaleController {
         } catch (Exception e) {
             e.printStackTrace();
             return  ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("")
+    ResponseEntity<PagedSales> getAllSales(SalesFilters  filters) {
+        try{
+            PagedSales sales = service.getSales(filters);
+            return new ResponseEntity(sales, HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
         }
     }
 }

@@ -64,6 +64,12 @@ public class SaleRepository {
         return jdbcTemplate.query(selectQuery , saleItemRowMapper , saleId);
     }
 
+    public List<Sale> getAll(String query, Object[] parameters) {
+        if(parameters.length == 0)
+            return jdbcTemplate.query(query, saleRowMapper);
+        return jdbcTemplate.query(query, saleRowMapper, parameters);
+    }
+
 
 
 }
