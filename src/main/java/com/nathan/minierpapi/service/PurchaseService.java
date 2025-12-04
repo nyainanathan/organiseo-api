@@ -85,21 +85,21 @@ public class PurchaseService {
 
     public Purchase updatePurchase(PurchaseUpdate purchaseUpdate, String purchaseId){
         repo.removeItemsFromAPurchase(purchaseId);
-        System.out.println("Part 1");
-        System.out.println(purchaseUpdate.toString());
+
+
         purchaseUpdate.getItems().forEach(System.out::println);
         repo.attachItemsToPurchase(purchaseUpdate.getItems(), purchaseId);
-        System.out.println("Part 2");
+
         double newTotal = purchaseUpdate.getItems().stream()
                 .mapToDouble(p -> p.getQuantity() * p.getUnitCost())
                 .sum();
-        System.out.println("Part 3");
+
         repo.updatePurchase(purchaseUpdate, purchaseId, newTotal);
-        System.out.println("Part 4");
+
         Purchase thePurchase = repo.getbyId(purchaseId);
-        System.out.println("Part 5");
+
         List<PurchaseItem> purchaseItems = repo.getItemsRelatedToAPurchase(purchaseId);
-        System.out.println("Part 6");
+
         thePurchase.setItems(purchaseItems);
         return thePurchase;
     }

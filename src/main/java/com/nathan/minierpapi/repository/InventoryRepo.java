@@ -23,7 +23,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class InventoryRepo {
 
-    private final JdbcClient jdbcClient;
     private JdbcTemplate jdbcTemplate;
     private InventoryRowMapper  inventoryRowMapper;
     private InventoryMovementRowMapper inventoryMovementRowMapper;
@@ -102,10 +101,11 @@ public class InventoryRepo {
         return this.getInventoryMovementById(idAsString);
     }
 
-        public List<InventoryItem> getItems(String selectQuery, String productId){
+    public List<InventoryItem> getItems(String selectQuery, String productId){
         return productId != null ?
-                jdbcTemplate.query(selectQuery, inventoryRowMapper, productId)
-                : jdbcTemplate.query(selectQuery, inventoryRowMapper);
-
+            jdbcTemplate.query(selectQuery, inventoryRowMapper, productId)
+            : jdbcTemplate.query(selectQuery, inventoryRowMapper);
     }
+
+
 }
