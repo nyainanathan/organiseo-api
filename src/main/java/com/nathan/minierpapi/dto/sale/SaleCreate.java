@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 public class SaleCreate {
     private List<SaleItems> items;
-    private String customerId;
     private String paymentMethod;
     private double total;
     private String cashierId;

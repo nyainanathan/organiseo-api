@@ -1,10 +1,14 @@
 package com.nathan.minierpapi.model.Sale;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Instant;
 import java.util.List;
 
+@Getter
+@Setter
 @AllArgsConstructor
 public class Sale {
     private String id;

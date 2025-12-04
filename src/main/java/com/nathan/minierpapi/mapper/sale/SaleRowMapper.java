@@ -5,11 +5,13 @@ import com.nathan.minierpapi.model.Sale.SaleItems;
 import com.nathan.minierpapi.utils.TimeUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @AllArgsConstructor
+@Component
 public class SaleRowMapper implements RowMapper<Sale> {
 
     private final TimeUtils timeUtils;
