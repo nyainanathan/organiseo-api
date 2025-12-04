@@ -40,4 +40,14 @@ public class SaleController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @GetMapping("{saleId}")
+    ResponseEntity<Sale> getSale(@PathVariable("saleId") String saleId) {
+        try{
+            Sale sale = service.getById(saleId);
+            return new ResponseEntity(sale, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

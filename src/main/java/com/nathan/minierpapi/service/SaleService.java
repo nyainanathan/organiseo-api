@@ -47,10 +47,6 @@ public class SaleService {
 
         List<Timestamp> params = new ArrayList<>();
 
-        Timestamp ts = timeUtils.convertToTimestamp(filters.getFrom());
-        System.out.println("Converted timestamp: " + ts);
-        System.out.println("As Instant (UTC): " + ts.toInstant());
-
         if(filters.getFrom() != null ||  filters.getTo() != null) {
             selectQuery.append(" WHERE");
                 if(filters.getFrom() != null && filters.getTo() != null) {
