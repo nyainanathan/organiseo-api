@@ -36,7 +36,7 @@ public class SaleRepository {
             return ps;
         } , keyholder);
 
-        return  keyholder.getKey().toString();
+        return  keyholder.getKeys().get("id").toString();
     }
 
     public Sale getSaleBydId(String saleId){
@@ -60,7 +60,7 @@ public class SaleRepository {
     }
 
     public List<SaleItems> getItemsRelatedToASale(String saleId){
-        String selectQuery = "SELECT * FROM sale_items WHERE sale_id = ?";
+        String selectQuery = "SELECT * FROM sale_items WHERE sale_id = ?::uuid";
         return jdbcTemplate.query(selectQuery , saleItemRowMapper , saleId);
     }
 
